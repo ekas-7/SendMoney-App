@@ -1,4 +1,5 @@
 import User from "../models/user-model.js";
+import Account from "../models/account-model.js";
 import { signupSchema, signinSchema } from "../middlewares/auth-validator.js";
 import jwt from "jsonwebtoken";
 
@@ -30,6 +31,10 @@ export const signUp = async (req, res) => {
     const newUser = new User({ username, password, name });
     await newUser.save();
     const userId = newUser._id;
+    await Account.create({
+      userId,
+      balance: Math.floor(1 + Math.random() * 10000)
+    })
     const token = jwt.sign({ userId }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });

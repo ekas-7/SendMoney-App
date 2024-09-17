@@ -9,6 +9,7 @@ const port = 3000;
 // Import router
 import authRouter from './routes/auth-route.js'; 
 import updateRouter from './routes/update-route.js';
+import transitonRouter from './routes/transition-route.js'
 
 import {connectDb } from "./db/db.js"
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // Use the imported auth router
 app.use('/api/user', authRouter);
 app.use('/api/update',updateRouter);
+app.use('/api/transfer',transitonRouter);
 
 
 connectDb().then(() => {
