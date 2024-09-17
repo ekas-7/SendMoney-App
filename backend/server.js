@@ -20,7 +20,7 @@ app.use(cors({
 app.use(express.urlencoded({ extended: true }));
 
 // Use the imported auth router
-app.use('/api/auth', authRouter);
+app.use('/api/user', authRouter);
 
 connectDb().then(() => {
     app.listen(port, () => {
