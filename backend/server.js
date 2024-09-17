@@ -7,7 +7,9 @@ const app = express();
 const port = 3000;
 
 // Import router
-import authRouter from './routes/auth-route.js'; // Correct the path based on your project structure
+import authRouter from './routes/auth-route.js'; 
+import updateRouter from './routes/update-route.js';
+
 import {connectDb } from "./db/db.js"
 
 // Middlewares and CORS setup
@@ -21,6 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Use the imported auth router
 app.use('/api/user', authRouter);
+app.use('/api/update',updateRouter);
+
 
 connectDb().then(() => {
     app.listen(port, () => {
