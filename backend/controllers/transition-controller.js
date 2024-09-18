@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { z } from 'zod';
 import Account from "../models/account-model.js";
+import User from '../models/user-model.js';
 import jwt from "jsonwebtoken";
 
 export const transferFunds = async (req, res) => {
@@ -76,3 +77,21 @@ export const getBalance = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getName = async (req,res) =>{
+    try {
+        const token = req.headers['authorization']?.split(' ')[1];
+        if (!token) {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        if (!decoded.userId) {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+        const user = await User.findOne({ _id: decoded.userId });
+        res.status(200).json({ user});
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
